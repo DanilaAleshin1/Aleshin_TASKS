@@ -10,24 +10,24 @@ public class task4
 {
 	public static void main(String[] args) 
 	{
-		/*out.println(sevenBoom(new int[] {1, 2, 3, 4, 5, 6, 6}));
-		out.println(cons(new int[] {1, 2, 3, 4, 5, 6, 7}));
+		out.println(sevenBoom(1, 2, 3, 4, 5, 6, 67));
+		/*out.println(cons(new int[] {1, 2, 3, 4, 5, 6, 7}));
 		out.println(unmix("hTsii  s aimex dpus rtni.g"));
 		out.println(noYelling("What went wrong?????????"));
 		out.println(xPronounce("unboxinx"));
 		out.println(largestGap(new int[] {9, 4, 26, 26, 0, 0, 5, 20, 6, 25, 5}));
-		//out.println(reversecod(2));
-		//reversecod();
-		commonLastVowel("String str");*/
-		commonLastVowel("aaaaeeew");
+		out.println(reversecod(149));
+		out.println(commonLastVowel("String str"));
+		out.println(commonLastVowel("aaaaeeew"));
+		out.println(commonLastVowel("aaaaeeew"));*/
 
 	}
 
 	/* *1. Создайте функцию, которая принимает массив чисел и возвращает "Бум!", если в
 	массиве появляется цифра 7. В противном случае верните "в массиве нет 7".* */
-	public static String sevenBoom(int[] a)
+	public static String sevenBoom(int... a)
 	{
-		String str="";
+		/*String str="";
 		for (int i : a) 
 		{
 			str=str+i;
@@ -36,10 +36,13 @@ public class task4
 		{
 			if(str.charAt(i)=='7')
 				return "Boom!";
-		}
-		return "there is no 7 in the array";
+		}*/
+		return (Arrays.stream(a)
+			.mapToObj(x->String.valueOf(x))
+			.filter(b->b.indexOf('7')>-1)
+			.count())>0 ? "Boom!": "there is no 7 in the array";
 	}
-	/* *********************************************************************** */
+	/* ***********************************"there is no 7 in the array"****************************.filter(z->(z-'0')==7).******** */
 
 	/* *2. Создайте функцию, которая определяет, могут ли элементы в массиве быть
 	переупорядочены, чтобы сформировать последовательный список чисел, где
@@ -79,7 +82,7 @@ public class task4
 	середине предложений.* */
 	public static String noYelling(String str)
 	{
-		out.println(str.length());
+		//out.println(str.length());
 		if(str.charAt(str.length()-1)=='!' || str.charAt(str.length()-1)=='?')
 		{
 			while(str.charAt(str.length()-1)==str.charAt(str.length()-2))
@@ -156,14 +159,21 @@ public class task4
 	/* *8. Создайте функцию, которая принимает предложение в качестве входных данных и
 	возвращает наиболее распространенную последнюю гласную в предложении в
 	виде одной символьной строки.* */
-	public static void commonLastVowel(String... str)
+	public static String commonLastVowel(String... str)
 	{
 		Set<Character> gl=Stream.of('a','e','y','u','i','o').collect(Collectors.toSet());
 		/*for (int i=0; i<str.length; i++) 
 		{
 			str[i].toLowerCase();			
 		}*/
-		Map<String, Long> rez=Arrays.stream(str).map(a->a.toLowerCase()).map(s->s.chars().mapToObj(c->(char)c).toArray(Character[]::new)).flatMap(b->Arrays.stream(b)).filter(c->gl.contains(c)).collect(Collectors.groupingBy(ch-> String.valueOf(ch), Collectors.counting()));
+		Map<String, Long> rez=Arrays.stream(str)
+		.map(a->a.toLowerCase())
+		.map(s->s.chars().mapToObj(c->(char)c)
+			.toArray(Character[]::new))
+		.flatMap(b->Arrays.stream(b))
+		.filter(c->gl.contains(c))
+		.collect(Collectors.groupingBy(ch-> String.valueOf(ch), Collectors.counting()));
+		
 		Set<String> rezz= rez.keySet();
 		Long desiredObject=Collections.max(rez.values());
 		out.println(rez.entrySet());
@@ -171,12 +181,13 @@ public class task4
 		{
     		if (desiredObject.equals(rez.get(key))) 
     		{
-        		out.println(key);
+        		return key;
     		}
 		}
+		return "";
 
 	}
-	/* *********************************************************************.forEach(x->out.println(x))** */
+	/* *********************************************************************** */
 
 
 	/* *задание 9: Это вызов обратного кодирования. Обычно вам дают явные указания о том, как
