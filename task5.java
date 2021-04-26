@@ -5,16 +5,34 @@ import java.util.stream.*;
 import java.util.*;
 import java.lang.Long;
 import java.util.regex.*;
+import java.time.*;
+import java.text.*;
 
 public class task5
 {
 	public static void main(String[] args) 
 	{
-		//System.out.println(sameLetterPattern("qwqqqe", "wewwwq"));
-		//System.out.println(totalPoints(new String[] {"trance", "recant"}, "recant"));
-		//System.out.println(rearrange("Tesh3 th5e 1I lov2e way6 she7 j4ust i8s"));
-		//System.out.println(maxPossible(123, 654));
-		timeDifference("New York", "December 31, 1970 13:40", "Beijing");
+		/*
+		//1
+		System.out.println("1 zadanie:\n"+sameLetterPattern("qwqqsq", "wewwwq"));
+		//3
+		System.out.println("3 zadanie:\n"+digitsCount(123));
+		//4
+		System.out.println("4 zadanie:\n"+totalPoints(new String[] {"trance", "recant"}, "recant"));
+		//5
+		System.out.println("5 zadanie:\n"+(longestRun(new int[]{1,2,3,2,1})));
+		//6
+		System.out.println("6 zadanie:\n"+takeDownAverage(new String[] {"53%", "79%"}));
+		//7
+		System.out.println("7 zadanie:\n"+rearrange("Tesh3 th5e 1I lov2e way6 she7 j4ust i8s"));
+		//8
+		System.out.println("8 zadanie:\n"+maxPossible(123, 654));
+		//9
+		//System.out.println("9 zadanie:\n"+timeDifference("New York", "December 31, 1970 13:40", "Beijing"));
+		timeDifference();
+		//10
+		System.out.println("10 zadanie:\n"+isNew(123));*/
+		timeDifference("Caracas","London");
 
 
 	}
@@ -42,6 +60,7 @@ public class task5
 				s=s+code2.get(Character.toString(b.charAt(i)))* (int) Math.pow(10, i);
 
 			}
+			System.out.println(String.valueOf(f)+" "+String.valueOf(s));
 			return f==s;
 		}
 		else
@@ -107,10 +126,11 @@ public class task5
 	Этот список может быть как увеличивающимся, так и уменьшающимся. Создайте
 	функцию, которая принимает массив чисел и возвращает длину самого длинного
 	последовательного запуска.** */
-	public static int longestRun(int[] arr) {
-        Arrays.sort(arr);
+	public static int longestRun(int[] arr) 
+	{
         int max = -1;
         int k=1;
+        int l=1;
         for (int i = 0; i < arr.length-1; i++) {
             if (arr[i]==arr[i+1]-1){
                 k=k+1;}
@@ -118,8 +138,18 @@ public class task5
             {
                 k=1;
             }
+            if (arr[i]==arr[i+1]+1){
+                l=l+1;}
+            else
+            {
+                l=1;
+            }
             if (k>max)
                 max=k;
+            if (l>max) 
+            {
+            	max=l;
+            }
         }
         return max;
     }
@@ -189,7 +219,34 @@ public class task5
 
 	/* *9. В этой задаче цель состоит в том, чтобы вычислить, сколько времени сейчас в двух
 	разных городах. * */
-	public static void timeDifference(String contr1, String time, String contr2)
+	public static SimpleDateFormat parseDate = new SimpleDateFormat("MMMM d, yyyy HH:mm");
+    public static SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-M-d HH:mm"); 
+    
+    public static String getGMT(String city) {
+        if (city == "Los Angeles") return "GMT-08:00";
+        if (city == "New York") return "GMT-05:00";
+        if (city == "Caracas") return "GMT- 04:30";
+        if (city == "Buenos Aires") return "GMT-03:00";
+        if (city == "London") return "GMT00:00";
+        if (city == "Rome") return "GMT+01:00";
+        if (city == "Moscow") return "GMT+03:00";
+        if (city == "Tehran") return "GMT+03:30";
+        if (city == "New Delhi") return "GMT+05:30";
+        if (city == "Beijing") return "GMT+08:00";
+        if (city == "Canberra") return "GMT+10:00";
+        return "GMT";
+    }
+    
+    public static String timeDifference(String cityA, String timestamp, String cityB) {
+        try {
+            parseDate.setTimeZone(TimeZone.getTimeZone(getGMT(cityA)));
+            formatDate.setTimeZone(TimeZone.getTimeZone(getGMT(cityB)));
+            Date date = parseDate.parse(timestamp);
+            return formatDate.format(date);
+        } catch(Exception e) {}
+        return null;
+    }
+	/*public static String timeDifference(String contr1, String time, String contr2)
 	{
 		int day=0, year=0; 
 		String mont="";
@@ -258,7 +315,7 @@ public class task5
 		t3=country.get(contr2).split(":");
 
 		alltime.add(Integer.parseInt(t2[1])+Integer.parseInt(t3[1]), Math.abs(Integer.parseInt(t2[0])-Integer.parseInt(t3[0])));
-		System.out.println(alltime.getToString());
+		return alltime.getToString();
 
 	}
 
@@ -343,7 +400,7 @@ public class task5
 
 		}
 
-	}
+	}*/
 
 	/* *************************************************************************** */
 
